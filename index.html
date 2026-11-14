@@ -313,6 +313,77 @@
     .digi{font-size:.95rem}
     .cd{font-size:.62rem}
   }
+
+  /* ---------- วันหยุด ---------- */
+  .holi{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--card);border-radius:26px;
+    padding:16px 18px;margin-bottom:18px;box-shadow:0 8px 24px rgba(var(--rgb),.3);border:1.5px solid var(--blue-l)}
+  .holi[hidden],#homeBody[hidden]{display:none}
+  .holi svg{flex:none;color:var(--blue-d)}
+  .holi-t{flex:1;min-width:140px}
+  .holi-t b{display:block;font-size:1.05rem;color:var(--blue-d)}
+  .holi-t small{display:block;font-size:.82rem;color:var(--soft);margin-top:2px}
+  .holi-b{display:flex;gap:8px;flex-wrap:wrap}
+  .holi-b button{padding:8px 16px;font-size:.85rem}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px}
+  .chips span{display:inline-flex;align-items:center;gap:2px;background:var(--blue-l);color:var(--blue-d);
+    border-radius:999px;padding:3px 4px 3px 12px;font-size:.8rem}
+  .chips button{background:none;color:var(--blue-d);padding:0 7px;font-size:.95rem;line-height:1.2}
+  .mx-row input[type=date]{font-family:inherit;font-size:.9rem;color:var(--blue-d);
+    border:1.5px solid var(--blue-l);border-radius:12px;padding:6px 10px;background:#fff}
+
+  /* ---------- แถบความคืบหน้า + แถบสีข้างแถว + แอนิเมชันเด้ง ---------- */
+  .prog{background:var(--card);border-radius:20px;padding:12px 16px 14px;margin-bottom:18px;
+    box-shadow:0 6px 18px rgba(var(--rgb),.25)}
+  .prog-h{display:flex;justify-content:space-between;align-items:baseline;font-size:.85rem;color:var(--ink);margin-bottom:8px}
+  .prog-h b{color:var(--blue-d);font-size:1.1rem}
+  .bar{display:flex;height:14px;border-radius:999px;background:var(--blue-l);overflow:hidden;
+    box-shadow:inset 0 1px 3px rgba(var(--rgb-d),.2)}
+  .bar i{display:block;height:100%;width:0;transition:width .7s cubic-bezier(.34,1.7,.5,1)}
+  .bar .s-p{background:var(--blue)}
+  .bar .s-l{background:var(--yellow)}
+  .bar .s-e{background:var(--lav)}
+  .bar .s-k{background:var(--peach)}
+  .row{box-shadow:inset 4px 0 0 transparent}
+  .row.is-p{box-shadow:inset 4px 0 0 var(--blue)}
+  .row.is-l{box-shadow:inset 4px 0 0 var(--yellow)}
+  .row.is-e{box-shadow:inset 4px 0 0 var(--lav)}
+  .row.is-k{box-shadow:inset 4px 0 0 var(--peach)}
+  .row.is-a{box-shadow:inset 4px 0 0 var(--blue-l)}
+  @keyframes pop{0%{transform:scale(.7)}55%{transform:scale(1.3)}80%{transform:scale(.93)}100%{transform:scale(1)}}
+  .box.pop input{animation:pop .45s cubic-bezier(.34,1.56,.64,1)}
+  @keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.4)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+  .sum strong{display:inline-block}
+  .sum strong.bump{animation:bump .45s ease}
+  @media (prefers-reduced-motion:reduce){
+    .box.pop input,.sum strong.bump{animation:none}
+    .bar i{transition:none}
+  }
+
+  /* ---------- ธีมที่ตั้งเอง ---------- */
+  .themepop{flex-direction:column;align-items:center;gap:10px;border-radius:26px;padding:10px 12px;max-width:94vw}
+  .themepop.wide{width:300px}
+  .tp-row{display:flex;gap:6px;justify-content:center;flex-wrap:nowrap}
+  .tp-row.wrap{flex-wrap:wrap;align-items:center}
+  .tp-label{font-size:.72rem;color:var(--soft);text-align:center;margin-bottom:-4px}
+  .tp-custom{display:flex;flex-direction:column;gap:6px;align-items:center;padding-top:10px;
+    border-top:1.5px dashed var(--blue-l);width:100%}
+  .tp-custom[hidden]{display:none}
+  .themepop button.cu{border-style:dashed;color:var(--cc,var(--blue))}
+  .themepop button.tp-shape{color:var(--cc,var(--blue))}
+  .themepop button.sw{width:28px;height:28px}
+  .tp-color{width:28px;height:28px;padding:0;border:2px solid var(--blue-l);border-radius:50%;
+    background:none;cursor:pointer;overflow:hidden}
+  .tp-color::-webkit-color-swatch-wrapper{padding:0}
+  .tp-color::-webkit-color-swatch{border:none;border-radius:50%}
+  .tp-color::-moz-color-swatch{border:none;border-radius:50%}
+
+  /* ---------- แถวรายชื่อสลับสีตามธีม ---------- */
+  .row,.mrow{border-radius:12px;border-bottom-color:transparent}
+  .row:nth-child(odd),.mrow:nth-child(odd){background:rgba(var(--rgb),.11)}
+  .mrow{padding:6px}
+  .holi.opened{padding:10px 16px;border-radius:20px;gap:8px}
+  .holi.opened .holi-t b{font-size:.95rem}
+  .holi.opened .holi-b button{padding:6px 14px;font-size:.8rem}
 </style>
 </head>
 <body>
@@ -337,12 +408,29 @@
   </header>
 
   <div id="pgHome">
+  <div class="holi" id="holiBanner" hidden>
+    <svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M26 19.5A11 11 0 0 1 12.5 6 11 11 0 1 0 26 19.5z"/></svg>
+    <div class="holi-t"><b>วันนี้เป็นวันหยุด</b><small id="holiTxt"></small></div>
+    <div class="holi-b">
+      <button type="button" class="btn-main" id="holiOpen">เช็คชื่อวันนี้</button>
+      <button type="button" class="btn-sub" id="holiSet">ตั้งค่า</button>
+    </div>
+  </div>
+  <div id="homeBody">
+  <div class="holi opened" id="holiOpened" hidden>
+    <div class="holi-t"><b>เปิดเช็คชื่อพิเศษวันนี้</b><small id="holiOpenedTxt"></small></div>
+    <div class="holi-b"><button type="button" class="btn-sub" id="holiClose">กลับเป็นวันหยุด</button></div>
+  </div>
   <div class="summary">
     <div class="sum p"><small>ทันแถว/<br>มา รร.</small><strong id="cP">0</strong></div>
     <div class="sum l"><small>ลา</small><strong id="cL">0</strong></div>
     <div class="sum e"><small>ขออนุญาต<br>เข้าสาย</small><strong id="cE">0</strong></div>
     <div class="sum k"><small>ติดภารกิจ<br>รด./กีฬา</small><strong id="cK">0</strong></div>
     <div class="sum a"><small>ขาด/<br>มาสาย</small><strong id="cA">0</strong></div>
+  </div>
+  <div class="prog">
+    <div class="prog-h"><span>เช็คแล้ว <b id="progN">0</b> / <span id="progT">0</span> คน</span><span id="progPct">0%</span></div>
+    <div class="bar"><i class="s-p" id="bP"></i><i class="s-l" id="bL"></i><i class="s-e" id="bE"></i><i class="s-k" id="bK"></i></div>
   </div>
 
   <section class="panel">
@@ -368,6 +456,9 @@
     </form>
     <div id="manageExtra" style="display:none">
       <div class="mx-row"><span>เวลาเข้าแถว</span><input type="time" id="asmTime" value="08:10"></div>
+      <div class="mx-row"><span>วันหยุดพิเศษ</span><input type="date" id="holDate"><button type="button" class="btn-sub" id="holAdd">+ เพิ่ม</button></div>
+      <div class="chips" id="holList"></div>
+      <p class="hint" style="margin-top:6px">เสาร์-อาทิตย์เป็นวันหยุดอัตโนมัติ</p>
       <div class="mx-row">
         <button type="button" class="btn-sub" id="bkBtn">สำรองข้อมูล</button>
         <button type="button" class="btn-sub" id="rsBtn">กู้คืนข้อมูล</button>
@@ -381,6 +472,7 @@
     <button class="btn-all" id="allBtn">✓ มาครบทุกคน</button>
     <button class="btn-lav" id="manageBtn">✎ จัดการรายชื่อ</button>
     <button class="btn-sub" id="resetBtn">ล้างช่องที่ติ๊ก</button>
+  </div>
   </div>
   </div>
 
@@ -458,7 +550,22 @@ const store = {
   set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
 };
 
-/* ====== ของลอยตามธีม: เมฆ / กระดูก / ซากุระ / ดอกไม้ / ใบไม้ ====== */
+/* ====== วันหยุด (เสาร์-อาทิตย์ + วันหยุดพิเศษ) ====== */
+const WEEKDAYS_TH=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+let holidays=store.get('holidays-v1',[]); if(!Array.isArray(holidays)) holidays=[];
+let workdays=store.get('workdays-v1',[]); if(!Array.isArray(workdays)) workdays=[];   // วันหยุดที่ขอเปิดเช็คชื่อพิเศษ
+const keyOf=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function dayInfo(key){
+  const [y,m,d]=key.split('-').map(Number), wd=new Date(y,m-1,d,12).getDay();
+  let base={off:false};
+  if(holidays.includes(key)) base={off:true,reason:'วันหยุดพิเศษ'};
+  else if(wd===0||wd===6) base={off:true,reason:'วัน'+WEEKDAYS_TH[wd]};
+  if(base.off && workdays.includes(key)) return {off:false,opened:true,reason:base.reason};   // วันหยุดที่ขอเปิดเช็คชื่อพิเศษ
+  return base;
+}
+const saveHol=()=>{ store.set('holidays-v1',holidays); store.set('workdays-v1',workdays); };
+
+/* ====== ของลอยตามธีม: เมฆ / กระดูก / ซากุระ / ดอกไม้ / ใบไม้ + ธีมที่ตั้งเอง ====== */
 const sky = document.getElementById('sky');
 const petals = (n, tpl) => Array.from({length:n},(_,i)=>tpl.replace('ROT', i*360/n)).join('');
 const SHAPES = {
@@ -468,7 +575,9 @@ const SHAPES = {
   flower: `<svg viewBox="0 0 32 32"><g fill="currentColor">${petals(6,'<circle cx="16" cy="8" r="5.2" transform="rotate(ROT 16 16)"/>')}</g><circle cx="16" cy="16" r="3.2" fill="#fff" opacity=".8"/></svg>`,
   leaf:   '<svg viewBox="0 0 32 32"><path fill="currentColor" d="M16 3C27 8 29 21 16 29 3 21 5 8 16 3z"/><path d="M16 9v17" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none" opacity=".7"/></svg>'
 };
-/* ชื่อรูปทรง, สีไอคอนในปุ่มเลือก, ชื่อธีม */
+const BRUSH = '<svg class="brush" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M27 5 17.5 14.5"/><path d="M14.5 13.5 18.5 17.5 16.5 20.5C14.6 23.400 11.700 25 8 25.500 5.700 25.800 4.300 25.300 3.500 24.800 5 24.200 6 23 6.200 21.200 6.600 17.300 10 13.500 14.500 13.500z"/></svg>';
+const SHAPE_NAMES = {cloud:'ก้อนเมฆ', bone:'กระดูก', sakura:'ซากุระ', flower:'ดอกไม้', leaf:'ใบไม้'};
+/* ธีมสำเร็จรูป: รูปทรง, สีไอคอนในปุ่มเลือก, ชื่อธีม */
 const THEME_META = {
   blue:   ['cloud',  '#8cc8e8', 'ธีมก้อนเมฆ'],
   yellow: ['bone',   '#efc94c', 'ธีมกระดูก'],
@@ -476,19 +585,77 @@ const THEME_META = {
   purple: ['flower', '#b9a2ef', 'ธีมดอกไม้'],
   green:  ['leaf',   '#9bd3a8', 'ธีมใบไม้']
 };
-/* จำนวน / ขนาด / แบบการเคลื่อนไหวของของลอย */
+/* จำนวน / ขนาด / แบบการเคลื่อนไหวของของลอยแต่ละรูปทรง (เมฆใช้แบบมีหน้าตา) */
 const FLOAT = {
-  yellow: {n:8,  size:[30,48], mode:'tumble'},
-  pink:   {n:16, size:[14,26], mode:'fall'},
-  purple: {n:11, size:[18,32], mode:'tumble'},
-  green:  {n:12, size:[18,30], mode:'fall'}
+  bone:   {n:8,  size:[30,48], mode:'tumble'},
+  sakura: {n:16, size:[14,26], mode:'fall'},
+  flower: {n:11, size:[18,32], mode:'tumble'},
+  leaf:   {n:12, size:[18,30], mode:'fall'}
 };
-let theme = store.get('theme-v1','blue');
-if(!THEME_META[theme]) theme='blue';
+const SWATCHES = ['#8cc8e8','#a5b4f0','#b9a2ef','#e9a3d6','#f4a8c0','#e88c8c','#f5b58a','#efc94c','#b5d96a','#9bd3a8','#7fd6cf','#c8a98a'];
 
+let theme = store.get('theme-v1','blue');
+let custom = store.get('custom-theme-v1',{shape:'cloud',color:'#f4a8c0'});
+if(!custom || !SHAPES[custom.shape] || !/^#[0-9a-f]{6}$/i.test(custom.color||'')) custom={shape:'cloud',color:'#f4a8c0'};
+if(!THEME_META[theme] && theme!=='custom') theme='blue';
+const curShape = () => theme==='custom' ? custom.shape : THEME_META[theme][0];
+
+/* ---- สร้างชุดสีทั้งเว็บจากสีเดียว (ธีมที่ตั้งเอง) ---- */
+function hexToHsl(hex){
+  const r=parseInt(hex.slice(1,3),16)/255, g=parseInt(hex.slice(3,5),16)/255, b=parseInt(hex.slice(5,7),16)/255;
+  const mx=Math.max(r,g,b), mn=Math.min(r,g,b), l=(mx+mn)/2, d=mx-mn;
+  let h=0, s=0;
+  if(d){
+    s = l>.5 ? d/(2-mx-mn) : d/(mx+mn);
+    h = mx===r ? (g-b)/d+(g<b?6:0) : mx===g ? (b-r)/d+2 : (r-g)/d+4;
+    h*=60;
+  }
+  return [h, s*100, l*100];
+}
+function hslRgb(h,s,l){
+  s/=100; l/=100;
+  const k=n=>(n+h/30)%12, a=s*Math.min(l,1-l);
+  const f=n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)));
+  return [f(0),f(8),f(4)].map(x=>Math.round(x*255)).join(',');
+}
+const hsl = (h,s,l) => `hsl(${Math.round(h)} ${Math.round(s)}% ${Math.round(l)}%)`;
+const hueDist = (a,b) => { const d=Math.abs(a-b)%360; return d>180?360-d:d; };
+function customVars(hex){
+  const [h,s0]=hexToHsl(hex);
+  const s=Math.max(25,Math.min(85,s0)), sd=Math.min(s,70);
+  /* สีสถานะ (ลา/ขอเข้าสาย/ติดภารกิจ/ขาด) ต้องไม่ซ้ำกับสีหลักของธีม ถ้าซ้ำให้ขยับไปใช้สีสำรอง */
+  const want={l:50,e:265,k:22,a:345}, spare=[200,150,175,300,100,235], hue={};
+  for(const k of ['l','e','k','a']){
+    let t=want[k];
+    const clash=x=>hueDist(h,x)<36 || Object.keys(hue).some(o=>hueDist(hue[o],x)<20);
+    if(clash(t)){ const f=spare.find(x=>!clash(x)); if(f!==undefined) t=f; }
+    hue[k]=t;
+  }
+  return {
+    '--sky1':hsl(h,85,94.5), '--sky2':hsl(h,90,97.5),
+    '--blue':hsl(h,s,74), '--blue-d':hsl(h,sd,52), '--blue-l':hsl(h,70,90),
+    '--text':hsl(h,Math.min(s,60),45),
+    '--rgb':hslRgb(h,s,74), '--rgb-d':hslRgb(h,sd,52),
+    '--ink':hsl(h,34,40), '--soft':hsl(h,32,70), '--line':hsl(h,60,95), '--tint':hsl(h,100,98.5),
+    '--face':hsl(h,18,44), '--cheek':hsl(350,85,82),
+    '--yellow':hsl(hue.l,78,76), '--yellow-d':hsl(hue.l,62,46), '--l-bg':hsl(hue.l,100,94), '--l-on':hsl(hue.l,60,26),
+    '--lav':hsl(hue.e,70,78), '--lav-d':hsl(hue.e,48,58), '--e-bg':hsl(hue.e,100,95),
+    '--peach':hsl(hue.k,85,76), '--peach-d':hsl(hue.k,70,58), '--k-bg':hsl(hue.k,100,94),
+    '--abs':hsl(hue.a,72,72), '--abs-d':hsl(hue.a,52,60)
+  };
+}
+const CUSTOM_VARS = Object.keys(customVars('#8cc8e8'));
+function applyVars(){
+  const st=document.documentElement.style;
+  if(theme==='custom'){ const v=customVars(custom.color); for(const k in v) st.setProperty(k,v[k]); }
+  else CUSTOM_VARS.forEach(k=>st.removeProperty(k));
+}
+
+let skyShape='';
 function buildSky(){
   sky.innerHTML='';
-  if(theme==='blue'){                                  // ก้อนเมฆหน้าตาน่ารัก
+  skyShape=curShape();
+  if(skyShape==='cloud'){                              // ก้อนเมฆหน้าตาน่ารัก
     for(let i=0;i<8;i++){
       const c = document.createElement('div');
       c.className='cloud';
@@ -502,7 +669,7 @@ function buildSky(){
     }
     return;
   }
-  const cfg = FLOAT[theme], shape = SHAPES[THEME_META[theme][0]];
+  const cfg = FLOAT[skyShape], shape = SHAPES[skyShape];
   for(let i=0;i<cfg.n;i++){
     const c = document.createElement('div');
     c.className = 'fl ' + cfg.mode;
@@ -519,9 +686,10 @@ function buildSky(){
 }
 function applyTheme(){
   document.documentElement.setAttribute('data-theme', theme);
-  document.querySelectorAll('[data-pick]').forEach(b=>b.classList.toggle('on', b.dataset.pick===theme));
-  store.set('theme-v1', theme);
-  buildSky();
+  applyVars();
+  store.set('theme-v1', theme); store.set('custom-theme-v1', custom);
+  if(skyShape!==curShape()) buildSky();
+  syncThemeUI();
 }
 
 /* ====== วันที่ + นาฬิกา ====== */
@@ -546,7 +714,8 @@ function updateCountdown(d){
   const target=new Date(d); target.setHours(Number(t[0])||0, Number(t[1])||0, 0, 0);
   const digi=document.getElementById('digi'), cd=document.getElementById('cd');
   let txt='', late=false;
-  if(d<target){
+  if(dayInfo(keyOf(d)).off){ /* วันหยุด: ไม่แสดงเวลานับถอยหลัง */ }
+  else if(d<target){
     const mins=Math.ceil((target-d)/60000);
     if(mins<=720) txt = mins<60 ? `อีก ${mins} นาทีเข้าแถว` : `อีก ${Math.floor(mins/60)} ชม. ${mins%60} น. เข้าแถว`;
   }else{
@@ -594,7 +763,15 @@ const esc = s => s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':
 /* ====== วาดรายชื่อ ====== */
 const list = document.getElementById('list');
 
+const lastNum={};
+let popId=null;
+function setNum(id,val){
+  const el=document.getElementById(id);
+  if(lastNum[id]!==undefined && lastNum[id]!==val){ el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+  lastNum[id]=val; el.textContent=val;
+}
 function render(){
+  applyHolidayUI();
   document.getElementById('head').style.display = manage?'none':'grid';
   document.getElementById('addForm').style.display = manage?'grid':'none';
   document.getElementById('manageExtra').style.display = manage?'block':'none';
@@ -620,19 +797,20 @@ function render(){
     list.innerHTML = students.map((s,i)=>{
       if(!match(s)) return '';
       const st = data[s.id];
+      const pp = t => (popId===s.id && st===t) ? ' pop' : '';
       const cls = st==='p'?'is-p':st==='l'?'is-l':st==='e'?'is-e':st==='k'?'is-k':'is-a';
       const tag = s.tag?`<span class="tag ${s.tag}">${TAG_NAME[s.tag]}</span>`:'';
       const chip = st==='l'
         ? `<button type="button" class="chip ${data['h'+s.id]?'on':''}" data-half="${s.id}">${data['h'+s.id]?'✓ ':''}เฉพาะช่วงเช้า</button>` : '';
       const kBox = s.tag
-        ? `<label class="box k"><input type="checkbox" data-id="${s.id}" data-t="k" ${st==='k'?'checked':''}></label>`
+        ? `<label class="box k${pp('k')}"><input type="checkbox" data-id="${s.id}" data-t="k" ${st==='k'?'checked':''}></label>`
         : `<span></span>`;
       return `<div class="row ${cls}">
         <span class="no">${i+1}</span>
         <span class="nm">${esc(s.name)}${tag}${chip}</span>
-        <label class="box"><input type="checkbox" data-id="${s.id}" data-t="p" ${st==='p'?'checked':''}></label>
-        <label class="box l"><input type="checkbox" data-id="${s.id}" data-t="l" ${st==='l'?'checked':''}></label>
-        <label class="box e"><input type="checkbox" data-id="${s.id}" data-t="e" ${st==='e'?'checked':''}></label>
+        <label class="box${pp('p')}"><input type="checkbox" data-id="${s.id}" data-t="p" ${st==='p'?'checked':''}></label>
+        <label class="box l${pp('l')}"><input type="checkbox" data-id="${s.id}" data-t="l" ${st==='l'?'checked':''}></label>
+        <label class="box e${pp('e')}"><input type="checkbox" data-id="${s.id}" data-t="e" ${st==='e'?'checked':''}></label>
         ${kBox}
       </div>`;
     }).join('');
@@ -642,11 +820,13 @@ function render(){
 
   const c={p:0,l:0,e:0,k:0};
   students.forEach(s=>{ const st=data[s.id]; if(c[st]!==undefined) c[st]++; });
-  document.getElementById('cP').textContent=c.p;
-  document.getElementById('cL').textContent=c.l;
-  document.getElementById('cE').textContent=c.e;
-  document.getElementById('cK').textContent=c.k;
-  document.getElementById('cA').textContent=students.length-c.p-c.l-c.e-c.k;
+  const tot=students.length, done=c.p+c.l+c.e+c.k;
+  setNum('cP',c.p); setNum('cL',c.l); setNum('cE',c.e); setNum('cK',c.k); setNum('cA',tot-done);
+  document.getElementById('progN').textContent=done;
+  document.getElementById('progT').textContent=tot;
+  document.getElementById('progPct').textContent=(tot?Math.round(done/tot*100):0)+'%';
+  [['bP',c.p],['bL',c.l],['bE',c.e],['bK',c.k]].forEach(([id,v])=>{ document.getElementById(id).style.width = tot ? (v/tot*100)+'%' : '0%'; });
+  popId=null;
   buildReports();
 }
 
@@ -661,8 +841,10 @@ function buildReports(){
   buildStats();
   const now = viewDateObj(), beYear = now.getFullYear()+543;      // วันที่ที่เลือกดู (ค่าเริ่มต้น = วันนี้)
   const data = (viewKey===TODAY) ? liveData() : store.get('attendance-'+viewKey, null);
-  if(!data){
-    const msg='ไม่มีข้อมูลการเช็คชื่อของวันที่เลือก';
+  const dInfo = dayInfo(viewKey);
+  const hasTicks = d => !!d && Object.keys(d).some(k=>k[0]!=='h');
+  if(!data || (dInfo.off && !hasTicks(data))){
+    const msg = dInfo.off ? `${dInfo.reason} · วันหยุด ไม่มีการเช็คชื่อ` : 'ไม่มีข้อมูลการเช็คชื่อของวันที่เลือก';
     setReport('rpAssembly',msg); setReport('rpClass',msg);
     document.getElementById('pgUnchecked').innerHTML=document.getElementById('pgChecked').innerHTML=`<div class="snap"><p class="snap-ok">${msg}</p></div>`;
     return;
@@ -815,6 +997,7 @@ list.addEventListener('change',e=>{
   if(el.dataset.t){                         // ติ๊กเช็คชื่อ
     if(el.checked) data[id]=el.dataset.t; else delete data[id];
     if(data[id]!=='l') delete data['h'+id];
+    popId = el.checked ? id : null;
     saveData(); render();
   }else if(el.classList.contains('mname')){ // แก้ชื่อ
     const s=students.find(x=>x.id===id);
@@ -902,20 +1085,46 @@ document.getElementById('zIn').onclick=()=>{ zoom=Math.min(150,zoom+10); applyZo
 document.getElementById('zOut').onclick=()=>{ zoom=Math.max(60,zoom-10); applyZoom(); };
 applyZoom();
 
-/* ====== ปุ่มเลือกธีมในแถบด้านล่าง ====== */
+/* ====== ปุ่มเลือกธีมในแถบด้านล่าง (ธีมสำเร็จรูป + ธีมของฉัน) ====== */
 const themePop=document.getElementById('themePop'), themeBtn=document.getElementById('themeBtn');
-themePop.innerHTML = Object.entries(THEME_META).map(([k,m])=>
-  `<button type="button" data-pick="${k}" aria-label="${m[2]}" style="color:${m[1]}">${SHAPES[m[0]]}</button>`).join('');
+themePop.innerHTML =
+  `<div class="tp-row">${Object.entries(THEME_META).map(([k,m])=>
+      `<button type="button" data-pick="${k}" aria-label="${m[2]}" style="color:${m[1]}">${SHAPES[m[0]]}</button>`).join('')}
+     <button type="button" class="cu" data-pick="custom" aria-label="ธีมของฉัน">${BRUSH}</button></div>
+   <div class="tp-custom" id="tpCustom" hidden>
+     <div class="tp-label">รูปทรงที่ลอย</div>
+     <div class="tp-row">${Object.keys(SHAPES).map(k=>
+        `<button type="button" class="tp-shape" data-shape="${k}" aria-label="${SHAPE_NAMES[k]}">${SHAPES[k]}</button>`).join('')}</div>
+     <div class="tp-label">สี</div>
+     <div class="tp-row wrap">${SWATCHES.map(c=>
+        `<button type="button" class="sw" data-color="${c}" aria-label="สี ${c}" style="background:${c}"></button>`).join('')}
+        <input type="color" id="tpColor" class="tp-color" aria-label="เลือกสีเอง"></div>
+   </div>`;
+const tpColor=document.getElementById('tpColor');
+function syncThemeUI(){
+  themePop.style.setProperty('--cc', custom.color);
+  themePop.querySelectorAll('[data-pick]').forEach(b=>b.classList.toggle('on', b.dataset.pick===theme));
+  themePop.querySelectorAll('[data-shape]').forEach(b=>b.classList.toggle('on', b.dataset.shape===custom.shape));
+  themePop.querySelectorAll('[data-color]').forEach(b=>b.classList.toggle('on', b.dataset.color.toLowerCase()===custom.color.toLowerCase()));
+  if(tpColor.value!==custom.color) tpColor.value=custom.color;
+  const open = theme==='custom';
+  document.getElementById('tpCustom').hidden=!open;
+  themePop.classList.toggle('wide',open);
+}
+const closePop=()=>{ themePop.hidden=true; themeBtn.classList.remove('open'); };
 themeBtn.addEventListener('click',e=>{
   e.stopPropagation();
   themePop.hidden=!themePop.hidden; themeBtn.classList.toggle('open',!themePop.hidden);
 });
-document.addEventListener('click',e=>{
-  if(!themePop.hidden && !themePop.contains(e.target)){ themePop.hidden=true; themeBtn.classList.remove('open'); }
+document.addEventListener('click',e=>{ if(!themePop.hidden && !themePop.contains(e.target)) closePop(); });
+themePop.addEventListener('click',e=>{
+  e.stopPropagation();
+  const p=e.target.closest('[data-pick]'), s=e.target.closest('[data-shape]'), c=e.target.closest('[data-color]');
+  if(p){ theme=p.dataset.pick; applyTheme(); if(theme!=='custom') closePop(); }
+  else if(s){ custom.shape=s.dataset.shape; theme='custom'; applyTheme(); }
+  else if(c){ custom.color=c.dataset.color; theme='custom'; applyTheme(); }
 });
-themePop.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>{
-  theme=b.dataset.pick; applyTheme(); themePop.hidden=true; themeBtn.classList.remove('open');
-}));
+tpColor.addEventListener('input',e=>{ custom.color=e.target.value; theme='custom'; applyTheme(); });
 applyTheme();
 
 /* ====== ค้นหาชื่อ ====== */
@@ -937,7 +1146,7 @@ asmEl.value=store.get('assembly-time','08:10');
 asmEl.addEventListener('change',()=>{ store.set('assembly-time',asmEl.value||'08:10'); tick(); say('ตั้งเวลาเข้าแถวแล้ว'); });
 
 /* ====== สำรอง / กู้คืนข้อมูล ====== */
-const BK_KEY=/^(attendance-\d{4}-\d{2}-\d{2}|students-v1|class-label|assembly-time)$/;
+const BK_KEY=/^(attendance-\d{4}-\d{2}-\d{2}|students-v1|class-label|assembly-time|holidays-v1|workdays-v1|theme-v1|custom-theme-v1)$/;
 document.getElementById('bkBtn').onclick=()=>{
   const out={};
   try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(BK_KEY.test(k)) out[k]=localStorage.getItem(k); } }catch(e){}
@@ -967,6 +1176,45 @@ document.getElementById('rsFile').addEventListener('change',e=>{
   };
   r.readAsText(f); e.target.value='';
 });
+
+/* ====== วันหยุด: แบนเนอร์ + ตั้งวันหยุดพิเศษ ====== */
+const holiBanner=document.getElementById('holiBanner'), homeBody=document.getElementById('homeBody');
+function renderHolList(){
+  const ds=[...holidays].sort();
+  document.getElementById('holList').innerHTML = ds.length
+    ? ds.map(k=>{ const [y,m,d]=k.split('-').map(Number);
+        return `<span>${d} ${monthsShort[m-1]} ${y+543}<button type="button" data-delhol="${k}" aria-label="ลบวันหยุด">✕</button></span>`; }).join('')
+    : '<span style="background:none;color:var(--soft)">ยังไม่มีวันหยุดพิเศษ</span>';
+}
+function applyHolidayUI(){
+  const info=dayInfo(TODAY);
+  holiBanner.hidden=!info.off;
+  homeBody.hidden=info.off && !manage;      // กด "ตั้งค่า" ที่แบนเนอร์เพื่อเข้าโหมดจัดการรายชื่อได้
+  if(info.off) document.getElementById('holiTxt').textContent=`${info.reason} · ไม่ต้องเช็คชื่อ`;
+  document.getElementById('holiOpened').hidden=!info.opened;
+  if(info.opened) document.getElementById('holiOpenedTxt').textContent=`${info.reason} · เช็คชื่อได้ตามปกติ`;
+  renderHolList();
+  tick();     // อัปเดตเลขเวลา/นับถอยหลังทันที ไม่ต้องรอรอบถัดไป
+}
+document.getElementById('holAdd').onclick=()=>{
+  const el=document.getElementById('holDate'), v=el.value;
+  if(!v){ say('เลือกวันที่ก่อนนะ'); return; }
+  if(!holidays.includes(v)) holidays.push(v);
+  workdays=workdays.filter(x=>x!==v);
+  saveHol(); el.value=''; render(); say('เพิ่มวันหยุดแล้ว');
+};
+document.getElementById('holList').addEventListener('click',e=>{
+  const b=e.target.closest('[data-delhol]'); if(!b) return;
+  holidays=holidays.filter(x=>x!==b.dataset.delhol); saveHol(); render();
+});
+document.getElementById('holiOpen').onclick=()=>{
+  if(!workdays.includes(TODAY)) workdays.push(TODAY);
+  saveHol(); render(); say('เปิดเช็คชื่อวันนี้แล้ว');
+};
+document.getElementById('holiSet').onclick=()=>{ manage=true; render(); };
+document.getElementById('holiClose').onclick=()=>{
+  workdays=workdays.filter(x=>x!==TODAY); saveHol(); render(); say('กลับเป็นวันหยุดแล้ว');
+};
 
 render();
 </script>
