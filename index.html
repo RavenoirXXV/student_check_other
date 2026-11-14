@@ -139,6 +139,22 @@
   .addform{display:grid;grid-template-columns:96px 1fr 104px auto;gap:6px;margin-top:14px;
     padding-top:14px;border-top:1.5px dashed var(--blue-l)}
   .hint{font-size:.78rem;text-align:center;margin-top:10px;color:var(--soft)}
+  .roombar{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none}
+  .roombar::-webkit-scrollbar{display:none}
+  .roombar[hidden],.clsbox[hidden]{display:none}
+  .roombar button{flex:0 0 auto;background:#fff;color:var(--blue-d);border:1.5px solid var(--blue-l);padding:7px 16px;font-size:.88rem}
+  .roombar button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+  #roomName,#pasteTa{font-family:inherit;font-size:.9rem;color:var(--blue-d);border:1.5px solid var(--blue-l);
+    border-radius:12px;padding:8px 10px;background:#fff;min-width:0}
+  #roomName{width:150px;text-align:center}
+  #pasteTa{width:100%;resize:vertical;line-height:1.5}
+  details.paste{margin-top:12px;border:1.5px dashed var(--blue-l);border-radius:18px;padding:10px 12px}
+  details.paste summary{cursor:pointer;color:var(--blue-d);font-weight:500;text-align:center;font-size:.92rem}
+  details.paste .hint{margin:6px 0 8px}
+  .paste-info{font-size:.8rem;color:var(--blue-d);margin:6px 0;min-height:1.2em}
+  .paste-info .warn{color:var(--yellow-d)}
+  .mx-chk{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--blue-d);margin:6px 0}
+  #manageTop{margin-bottom:6px}
 
   /* ---------- ปุ่ม ---------- */
   .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:26px}
@@ -411,6 +427,8 @@
     </div>
   </header>
 
+  <div class="roombar" id="roomBar" hidden></div>
+
   <div id="pgHome">
   <div class="holi" id="holiBanner" hidden>
     <svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M26 19.5A11 11 0 0 1 12.5 6 11 11 0 1 0 26 19.5z"/></svg>
@@ -421,6 +439,10 @@
     </div>
   </div>
   <div id="homeBody">
+  <div class="holi opened" id="editBanner" hidden>
+    <div class="holi-t"><b>กำลังแก้ไขข้อมูลย้อนหลัง</b><small id="editTxt"></small></div>
+    <div class="holi-b"><button type="button" class="btn-sub" id="editBack">กลับไปวันนี้</button></div>
+  </div>
   <div class="holi opened" id="holiOpened" hidden>
     <div class="holi-t"><b>เปิดเช็คชื่อพิเศษวันนี้</b><small id="holiOpenedTxt"></small></div>
     <div class="holi-b"><button type="button" class="btn-sub" id="holiClose">กลับเป็นวันหยุด</button></div>
@@ -439,6 +461,21 @@
 
   <section class="panel">
     <h2 id="panelTitle">รายชื่อนักเรียน</h2>
+    <div id="manageTop" style="display:none">
+      <div class="mx-row" style="margin-top:0"><span>ชื่อห้อง</span><input type="text" id="roomName" placeholder="เช่น ม.4/2" autocomplete="off"></div>
+      <div class="mx-row">
+        <button type="button" class="btn-sub" id="roomAdd">+ เพิ่มห้องใหม่</button>
+        <button type="button" class="btn-sub" id="roomDel">ลบห้องนี้</button>
+      </div>
+      <details class="paste" id="pasteBox">
+        <summary>วางรายชื่อทั้งห้อง</summary>
+        <p class="hint">1 บรรทัด = 1 คน คัดลอกจาก Excel / Google Sheets / ไลน์ มาวางได้เลย เลขที่และรหัสนักเรียนจะถูกตัดออกให้ · ใส่ (รด.) หรือ (นักกีฬา) ต่อท้ายชื่อเพื่อติดกลุ่ม</p>
+        <textarea id="pasteTa" rows="6" placeholder="1 นายสมชาย ใจดี&#10;2 นางสาวสมหญิง รักเรียน&#10;3 ด.ช.ตัวอย่าง ชื่อสมมติ (นักกีฬา)"></textarea>
+        <div class="paste-info" id="pasteInfo"></div>
+        <label class="mx-chk"><input type="checkbox" id="pasteReplace"> แทนที่รายชื่อเดิมทั้งหมด (ชื่อที่ตรงกันจะคงประวัติไว้)</label>
+        <div class="mx-row" style="margin-top:6px"><button type="button" class="btn-main" id="pasteGo">เพิ่มรายชื่อ</button></div>
+      </details>
+    </div>
     <input type="search" id="q" class="search" placeholder="ค้นหาชื่อ" autocomplete="off">
     <div id="head" class="head">
       <span></span><span></span>
@@ -492,6 +529,7 @@
     </div>
     <div class="clsbox">ห้อง <input id="cls" placeholder="เช่น ม.4/2" autocomplete="off"></div>
     <div class="clsbox">วันที่ <input type="date" id="viewDate"> <button type="button" class="btn-sub" id="todayBtn" style="padding:6px 14px;font-size:.8rem">วันนี้</button></div>
+    <div class="clsbox" id="editRow" hidden><button type="button" class="btn-sub" id="editBtn" style="padding:7px 16px;font-size:.85rem">✎ แก้ไขข้อมูลของวันที่เลือก</button></div>
 
     <div class="slider" id="slider">
       <div class="slide">
@@ -734,25 +772,48 @@ tick(); setInterval(tick,5000);
 
 /* ====== ข้อมูล ====== */
 const pad = n => String(n).padStart(2,'0');
-const dayKey = 'attendance-' + now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
+/* ห้องเรียน: ห้อง 'main' ใช้คีย์เดิม (ข้อมูลเก่าไม่หาย) ห้องอื่นต่อท้ายด้วย @id */
+let rooms = store.get('rooms-v1', null);
+if(!Array.isArray(rooms) || !rooms.length){ rooms=[{id:'main',name:String(store.get('class-label',''))}]; store.set('rooms-v1',rooms); }
+let roomId = store.get('room-active-v1','main');
+if(!rooms.some(r=>r.id===roomId)) roomId=rooms[0].id;
+const sfx = id => id==='main' ? '' : '@'+id;
+const sKey = () => 'students-v1'+sfx(roomId);
+const aKey = d => 'attendance-'+d+sfx(roomId);
+const nKey = () => 'nid-v1'+sfx(roomId);
+const curRoom = () => rooms.find(r=>r.id===roomId);
+const fmtDate = k => { const [y,m,d]=k.split('-').map(Number); return d+' '+monthsShort[m-1]+' '+(y+543); };
+function newId(){
+  const n=Math.max(Number(store.get(nKey(),0))||0, students.reduce((m,s)=>Math.max(m,s.id),0))+1;
+  store.set(nKey(),n); return n;
+}
 
-let students = store.get('students-v1', []);
+let students = store.get(sKey(), []);
 /* วันที่แบบ YYYY-MM-DD + วันที่ที่เลือกดูในหน้าสรุป */
 const ymd = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const TODAY = ymd(now);
 let viewKey = TODAY;
+let editKey = TODAY;      // วันที่กำลังเช็ค/แก้ไข (ปกติ = วันนี้)
 const viewDateObj = () => { const [y,m,d]=viewKey.split('-').map(Number); return new Date(y,m-1,d,12); };
 const liveData = () => data;
 
 /* data[id] = 'p' ทันแถว | 'l' ลา | 'e' ขออนุญาตเข้าสาย | 'k' ติดภารกิจ(รด./นักกีฬา)
    data['h'+id] = 1  → ลาเฉพาะช่วงเช้า */
-let data = store.get(dayKey, {});
-const saveStudents = () => store.set('students-v1', students);
-const saveData = () => store.set(dayKey, data);
+let data = store.get(aKey(editKey), {});
+const saveStudents = () => store.set(sKey(), students);
+const saveData = () => store.set(aKey(editKey), data);
 
 const clsInput = document.getElementById('cls');
-clsInput.value = store.get('class-label','');
-clsInput.addEventListener('input',()=>{ store.set('class-label',clsInput.value); buildReports(); });
+clsInput.value = curRoom().name||'';
+function setRoomName(v){
+  curRoom().name=v; store.set('rooms-v1',rooms);
+  if(roomId==='main') store.set('class-label',v);
+  const rn=document.getElementById('roomName');
+  if(rn && rn.value!==v) rn.value=v;
+  if(clsInput.value!==v) clsInput.value=v;
+  renderRoomBar();
+}
+clsInput.addEventListener('input',()=>{ setRoomName(clsInput.value); buildReports(); });
 
 let manage = students.length===0;
 
@@ -782,6 +843,8 @@ function render(){
   document.getElementById('addForm').style.display = manage?'grid':'none';
   document.getElementById('manageExtra').style.display = manage?'block':'none';
   document.getElementById('manageHint').style.display = manage?'block':'none';
+  document.getElementById('manageTop').style.display = manage?'block':'none';
+  renderRoomBar();
   document.getElementById('panelTitle').textContent = manage?'จัดการรายชื่อ':'รายชื่อนักเรียน';
   document.getElementById('manageBtn').textContent = manage?'✓ เสร็จสิ้น':'✎ จัดการรายชื่อ';
 
@@ -846,7 +909,8 @@ function setReport(id, txt){
 function buildReports(){
   buildStats();
   const now = viewDateObj(), beYear = now.getFullYear()+543;      // วันที่ที่เลือกดู (ค่าเริ่มต้น = วันนี้)
-  const data = (viewKey===TODAY) ? liveData() : store.get('attendance-'+viewKey, null);
+  const data = (viewKey===editKey) ? liveData() : store.get(aKey(viewKey), viewKey===TODAY ? {} : null);
+  document.getElementById('editRow').hidden = (viewKey===editKey);
   const dInfo = dayInfo(viewKey);
   const hasTicks = d => !!d && Object.keys(d).some(k=>k[0]!=='h');
   if(!data || (dInfo.off && !hasTicks(data))){
@@ -918,8 +982,8 @@ function buildStats(){
   try{
     for(let i=0;i<localStorage.length;i++){
       const k=localStorage.key(i);
-      if(k && k.startsWith('attendance-'+ym+'-')){
-        const d = (k==='attendance-'+TODAY) ? data : JSON.parse(localStorage.getItem(k));
+      if(k && k.startsWith('attendance-'+ym+'-') && k.slice(21)===sfx(roomId)){
+        const d = (k===aKey(editKey)) ? data : JSON.parse(localStorage.getItem(k));
         if(d && Object.keys(d).some(x=>x[0]!=='h')) days.push(d);   // นับเฉพาะวันที่มีการติ๊กจริง
       }
     }
@@ -1036,7 +1100,7 @@ document.getElementById('addForm').addEventListener('submit',e=>{
   const nameEl=document.getElementById('addName');
   const v=nameEl.value.trim();
   if(!v){ say('กรอกชื่อ-นามสกุลก่อนนะ'); return; }
-  const id = students.reduce((m,s)=>Math.max(m,s.id),0)+1;
+  const id = newId();
   students.push({id, name: document.getElementById('addPrefix').value + v,
                  tag: document.getElementById('addTag').value});
   saveStudents(); nameEl.value=''; render(); say('เพิ่มรายชื่อแล้ว ☁️');
@@ -1049,7 +1113,7 @@ document.getElementById('allBtn').onclick=()=>{
   saveData(); render(); say('ติ๊กมาครบแล้ว (ยกเว้นคนที่ติ๊กอย่างอื่นไว้) ☁️');
 };
 document.getElementById('resetBtn').onclick=()=>{
-  ask('ล้างช่องที่ติ๊กทั้งหมดของวันนี้?', ()=>{
+  ask('ล้างช่องที่ติ๊กทั้งหมดของ'+(editKey===TODAY?'วันนี้':'วันที่ '+fmtDate(editKey))+'?', ()=>{
     data={}; saveData(); render(); say('ล้างข้อมูลแล้ว');
   });
 };
@@ -1073,12 +1137,13 @@ document.querySelectorAll('[data-copy]').forEach(b=>{
 
 /* ====== แถบนำทางด้านล่าง (หน้าเช็คชื่อ / หน้าสรุป) ====== */
 const pgHome=document.getElementById('pgHome'), pgReport=document.getElementById('pgReport');
-document.querySelectorAll('.nav').forEach(b=>b.addEventListener('click',()=>{
-  const toReport=b.dataset.go==='report';
+function showPage(p){
+  const toReport=p==='report';
   pgHome.hidden=toReport; pgReport.hidden=!toReport;
-  document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('on',n===b));
+  document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('on',n.dataset.go===p));
   window.scrollTo({top:0});
-}));
+}
+document.querySelectorAll('.nav').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));
 
 /* ====== ซูมหน้าเว็บ ====== */
 let zoom = Number(store.get('zoom-v1',100)) || 100;
@@ -1155,7 +1220,7 @@ asmEl.value=store.get('assembly-time','08:10');
 asmEl.addEventListener('change',()=>{ store.set('assembly-time',asmEl.value||'08:10'); tick(); say('ตั้งเวลาเข้าแถวแล้ว'); });
 
 /* ====== สำรอง / กู้คืนข้อมูล ====== */
-const BK_KEY=/^(attendance-\d{4}-\d{2}-\d{2}|students-v1|class-label|assembly-time|holidays-v1|workdays-v1|theme-v1|custom-theme-v1|zebra-v1)$/;
+const BK_KEY=/^(attendance-\d{4}-\d{2}-\d{2}(@\w+)?|students-v1(@\w+)?|nid-v1(@\w+)?|class-label|assembly-time|holidays-v1|workdays-v1|theme-v1|custom-theme-v1|zebra-v1|rooms-v1|room-active-v1)$/;
 document.getElementById('bkBtn').onclick=()=>{
   const out={};
   try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(BK_KEY.test(k)) out[k]=localStorage.getItem(k); } }catch(e){}
@@ -1175,11 +1240,19 @@ document.getElementById('rsFile').addEventListener('change',e=>{
     if(!obj || typeof obj!=='object'){ say('ไฟล์ไม่ถูกต้อง'); return; }
     const keys=Object.keys(obj).filter(k=>{
       if(!BK_KEY.test(k) || typeof obj[k]!=='string') return false;
-      try{ const v=JSON.parse(obj[k]); return k==='students-v1' ? Array.isArray(v) : true; }catch(err){ return false; }
+      try{ const v=JSON.parse(obj[k]); return (k.startsWith('students-v1')||k==='rooms-v1') ? Array.isArray(v) : true; }catch(err){ return false; }
     });
     if(!keys.length){ say('ไม่พบข้อมูลที่กู้คืนได้ในไฟล์นี้'); return; }
     ask(`กู้คืนข้อมูล ${keys.length} รายการ? (ข้อมูลที่ซ้ำกันจะถูกทับ)`,()=>{
       keys.forEach(k=>{ try{ localStorage.setItem(k,obj[k]); }catch(err){} });
+      try{
+        let rs=JSON.parse(localStorage.getItem('rooms-v1')||'null'); if(!Array.isArray(rs)) rs=[];
+        const ensure=(id,name)=>{ if(!rs.some(r=>r.id===id)) rs.push({id,name:name||''}); };
+        if(localStorage.getItem('students-v1')!==null) ensure('main', store.get('class-label',''));
+        keys.forEach(k=>{ const m=k.match(/^students-v1@(\w+)$/); if(m) ensure(m[1],''); });
+        if(keys.includes('class-label') && !keys.includes('rooms-v1')){ const mr=rs.find(r=>r.id==='main'); if(mr) mr.name=String(store.get('class-label','')); }
+        if(rs.length) localStorage.setItem('rooms-v1',JSON.stringify(rs));
+      }catch(err){}
       location.reload();
     });
   };
@@ -1196,7 +1269,10 @@ function renderHolList(){
     : '<span style="background:none;color:var(--soft)">ยังไม่มีวันหยุดพิเศษ</span>';
 }
 function applyHolidayUI(){
-  const info=dayInfo(TODAY);
+  const editing = editKey!==TODAY;
+  const info = editing ? {off:false,opened:false,reason:''} : dayInfo(TODAY);
+  document.getElementById('editBanner').hidden=!editing;
+  if(editing) document.getElementById('editTxt').textContent='วันที่ '+fmtDate(editKey)+' · ติ๊กแล้วบันทึกทับข้อมูลวันนั้นทันที';
   holiBanner.hidden=!info.off;
   homeBody.hidden=info.off && !manage;      // กด "ตั้งค่า" ที่แบนเนอร์เพื่อเข้าโหมดจัดการรายชื่อได้
   if(info.off) document.getElementById('holiTxt').textContent=`${info.reason} · ไม่ต้องเช็คชื่อ`;
@@ -1225,6 +1301,124 @@ document.getElementById('holiClose').onclick=()=>{
   workdays=workdays.filter(x=>x!==TODAY); saveHol(); render(); say('กลับเป็นวันหยุดแล้ว');
 };
 
+/* ====== ห้องเรียนหลายห้อง ====== */
+const roomLabel = r => (r.name||'').trim() || 'ห้อง '+(rooms.indexOf(r)+1);
+function renderRoomBar(){
+  const bar=document.getElementById('roomBar');
+  bar.hidden = rooms.length<2;
+  bar.innerHTML = rooms.map(r=>`<button type="button" class="${r.id===roomId?'on':''}" data-room="${r.id}">${esc(roomLabel(r))}</button>`).join('');
+}
+function loadRoom(){
+  students=store.get(sKey(),[]); data=store.get(aKey(editKey),{});
+  clsInput.value=curRoom().name||''; document.getElementById('roomName').value=curRoom().name||'';
+  searchQ=''; document.getElementById('q').value='';
+  manage=students.length===0;
+  document.getElementById('pasteTa').value=''; updPaste();
+  render();
+}
+function switchRoom(id){
+  if(id===roomId || !rooms.some(r=>r.id===id)) return;
+  roomId=id; store.set('room-active-v1',id); loadRoom(); window.scrollTo({top:0});
+}
+document.getElementById('roomBar').addEventListener('click',e=>{
+  const b=e.target.closest('[data-room]'); if(b) switchRoom(b.dataset.room);
+});
+document.getElementById('roomName').addEventListener('input',e=>{ setRoomName(e.target.value); buildReports(); });
+document.getElementById('roomAdd').onclick=()=>{
+  if(rooms.length>=12){ say('เพิ่มได้สูงสุด 12 ห้อง'); return; }
+  const id='r'+Date.now().toString(36);
+  rooms.push({id,name:''}); store.set('rooms-v1',rooms);
+  switchRoom(id);
+  say('เพิ่มห้องใหม่แล้ว ตั้งชื่อห้องแล้ววางรายชื่อได้เลย');
+  document.getElementById('roomName').focus();
+};
+document.getElementById('roomDel').onclick=()=>{
+  if(rooms.length<2){ say('ต้องมีอย่างน้อย 1 ห้อง'); return; }
+  ask(`ลบห้อง "${roomLabel(curRoom())}" พร้อมรายชื่อและประวัติเช็คชื่อทั้งหมด? (กู้คืนไม่ได้ ถ้าไม่ได้สำรองข้อมูลไว้)`,()=>{
+    const sf=sfx(roomId), gone=roomId;
+    try{
+      const del=[];
+      for(let i=0;i<localStorage.length;i++){
+        const k=localStorage.key(i);
+        if(k==='students-v1'+sf || k==='nid-v1'+sf || (k.startsWith('attendance-') && k.slice(21)===sf)) del.push(k);
+      }
+      if(gone==='main') del.push('class-label');
+      del.forEach(k=>localStorage.removeItem(k));
+    }catch(err){}
+    rooms=rooms.filter(r=>r.id!==gone); store.set('rooms-v1',rooms);
+    roomId=rooms[0].id; store.set('room-active-v1',roomId);
+    loadRoom(); say('ลบห้องแล้ว');
+  });
+};
+
+/* ====== วางรายชื่อทั้งห้อง ====== */
+const NUMCELL=/^[0-9๐-๙\s.\-)]+$/;
+function parseRoster(text){
+  const list=[], seen=new Set(); let noPre=0, dup=0;
+  text.split(/\r?\n/).forEach(raw=>{
+    const cells=raw.split('\t').map(c=>c.trim()).filter(c=>c && !NUMCELL.test(c));
+    if(!cells.length) return;
+    let s=cells.join(' '), tag='';
+    s=s.replace(/[(\[（]\s*(รด\.?|นักกีฬา)\s*[)\]）]/g,(m,t)=>{ tag=t.startsWith('รด')?'rd':'ath'; return ' '; });
+    s=s.replace(/^[0-9๐-๙]+\s*[.)\-:]*\s*/,'');
+    while(/\s[0-9๐-๙]{3,}$/.test(s)) s=s.replace(/\s[0-9๐-๙]{3,}$/,'');
+    s=s.replace(/\s+/g,' ').trim();
+    if(!s || /^(ลำดับ|เลขที่|ชื่อ|รายชื่อ|เลขประจำตัว|ที่)(\s|-|$)/.test(s)) return;
+    s=s.replace(/^ด\.\s?ช\.?\s*|^ดช\.\s*/,'เด็กชาย ').replace(/^ด\.\s?ญ\.?\s*|^ดญ\.\s*/,'เด็กหญิง ').replace(/^น\.\s?ส\.?\s*|^นส\.\s*/,'นางสาว ');
+    s=s.replace(/^(นางสาว|นาง|นาย|เด็กชาย|เด็กหญิง)\s+/,'$1').replace(/\s+/g,' ').trim();
+    if(!s) return;
+    if(seen.has(s)){ dup++; return; }
+    seen.add(s);
+    if(!PREFIX_RE.test(s)) noPre++;
+    list.push({name:s,tag});
+  });
+  return {list,noPre,dup};
+}
+const pasteTa=document.getElementById('pasteTa'), pasteInfo=document.getElementById('pasteInfo');
+function updPaste(){
+  const r=parseRoster(pasteTa.value);
+  if(!r.list.length){ pasteInfo.textContent=''; return; }
+  const m=r.list.filter(p=>isMale(p.name)).length;
+  pasteInfo.innerHTML=`พบ ${r.list.length} คน (ชาย ${m} · หญิง/อื่น ๆ ${r.list.length-m})`+(r.dup?` · ชื่อซ้ำข้าม ${r.dup}`:'')
+    +(r.noPre?`<br><span class="warn">${r.noPre} คนไม่มีคำนำหน้า (นาย/นางสาว…) จะถูกนับในกลุ่มหญิงตอนทำสรุป ลองเติมคำนำหน้าก่อนได้</span>`:'');
+}
+pasteTa.addEventListener('input',updPaste);
+document.getElementById('pasteGo').onclick=()=>{
+  const r=parseRoster(pasteTa.value);
+  if(!r.list.length){ say('ยังไม่พบชื่อ วางรายชื่อก่อนนะ'); return; }
+  const replace=document.getElementById('pasteReplace').checked;
+  const apply=()=>{
+    let msg;
+    if(replace){
+      const old=new Map(students.map(s=>[s.name,s]));
+      students=r.list.map(p=>{ const o=old.get(p.name); return o?{id:o.id,name:p.name,tag:p.tag||o.tag}:{id:newId(),name:p.name,tag:p.tag}; });
+      msg=`แทนที่รายชื่อแล้ว ${students.length} คน`;
+    }else{
+      const have=new Set(students.map(s=>s.name)); let n=0;
+      r.list.forEach(p=>{ if(!have.has(p.name)){ students.push({id:newId(),name:p.name,tag:p.tag}); have.add(p.name); n++; } });
+      msg=`เพิ่มแล้ว ${n} คน`+(r.list.length-n?` (ข้ามชื่อที่มีอยู่แล้ว ${r.list.length-n})`:'');
+    }
+    saveStudents(); pasteTa.value=''; updPaste(); render(); say(msg);
+  };
+  if(replace) ask(`แทนที่รายชื่อเดิม ${students.length} คน ด้วยรายชื่อใหม่ ${r.list.length} คน? (ชื่อที่ตรงกันจะคงประวัติเดิมไว้)`,apply); else apply();
+};
+
+/* ====== แก้ไขข้อมูลย้อนหลัง ====== */
+document.getElementById('editBtn').onclick=()=>{
+  const target=viewKey;
+  const go=()=>{
+    editKey=target; data=store.get(aKey(editKey),{}); manage=false;
+    render(); showPage('home');
+    say(editKey===TODAY?'กลับมาเช็คชื่อวันนี้แล้ว':'เปิดแก้ไขวันที่ '+fmtDate(editKey)+' แล้ว');
+  };
+  if(target===TODAY) go();
+  else ask(`แก้ไขข้อมูลวันที่ ${fmtDate(target)}? สิ่งที่ติ๊กจะบันทึกทับข้อมูลเดิมของวันนั้นทันที`,go);
+};
+document.getElementById('editBack').onclick=()=>{
+  editKey=TODAY; data=store.get(aKey(TODAY),{}); render(); say('กลับมาเช็คชื่อวันนี้แล้ว');
+};
+
+document.getElementById('roomName').value=curRoom().name||'';
 render();
 </script>
 </body>
